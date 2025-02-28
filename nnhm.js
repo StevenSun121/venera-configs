@@ -12,7 +12,7 @@ class Nnhm extends ComicSource {
     minAppVersion = "1.3.1"
 
     // update url
-    url = "https://raw.githubusercontent.com/StevenSun121/venera-configs/refs/heads/main/nnhm.js"
+    url = "http://192.168.0.13:8888/nnhm.js"
 
     /**
      * [Optional] init function
@@ -55,12 +55,12 @@ class Nnhm extends ComicSource {
                 let result = document.querySelectorAll("div.imgBox").map((item) => {
                     return {
                         title: item.querySelector("div.Sub_H2 > span.Title").textContent,
-                        comics: item.querySelectorAll("ul.col_3_1 > li").map((li) => {
+                        comics: item.querySelectorAll("ul.col_3_1 > li").map((item) => {
+                            console.log('/comic/jian-yu-xing-jing.html')
                             return new Comic({
-                                // /comic/jian-yu-xing-jing.html
-                                id: li.querySelector("a.ImgA").getAttribute('href').replaceAll('/comic/', '').replaceAll('.html', ''),
-                                title: li.querySelector("a.ImgA").getAttribute('title'),
-                                cover: li.querySelector("a.ImgA > picture > img").src
+                                id: item.querySelector("a.ImgA").getAttribute('href').replaceAll('/comic/', '').replaceAll('.html', ''),
+                                title: item.querySelector("a.ImgA").getAttribute('title'),
+                                cover: item.querySelector("a.ImgA > picture > img").src
                             })
                         }),
                         viewMore: item.querySelector("div.Sub_H2 > span.icon_More2").getAttribute('onclick').replaceAll('window.location=', '').replaceAll('\'', ''),

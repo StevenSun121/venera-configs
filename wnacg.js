@@ -12,7 +12,7 @@ class Wnacg extends ComicSource {
     minAppVersion = "1.0.0"
 
     // update url
-    url = "https://cdn.jsdelivr.net/gh/StevenSun121/venera-configs@main/wnacg.js"
+    url = "https://raw.githubusercontent.com/StevenSun121/venera-configs/refs/heads/main/jm.js"
 
     get baseUrl() {
         return `https://${this.loadSetting('domain')}`

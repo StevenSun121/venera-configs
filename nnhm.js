@@ -1,18 +1,18 @@
-class Senlin extends ComicSource {
+class Nnhm extends ComicSource {
     // Note: The fields which are marked as [Optional] should be removed if not used
 
     // name of the source
-    name = "森林"
+    name = "鸟鸟"
 
     // unique id of the source
-    key = "senlin"
+    key = "nnhm"
 
     version = "0.0.1"
 
     minAppVersion = "1.3.1"
 
     // update url
-    url = "https://raw.githubusercontent.com/StevenSun121/venera-configs/refs/heads/main/jm.js"
+    url = "https://raw.githubusercontent.com/StevenSun121/venera-configs/refs/heads/main/nnhm.js"
 
     /**
      * [Optional] init function
@@ -21,12 +21,16 @@ class Senlin extends ComicSource {
 
     }
 
+    get baseUrl() {
+        return `https://${this.loadSetting('domain')}`
+    }
+
     // explore page list
     explore = [
         {
             // title of the page.
             // title is used to identify the page, it should be unique
-            title: "",
+            title: "鸟鸟",
 
             /// multiPartPage or multiPageComicList or mixed
             type: "multiPartPage",
@@ -40,36 +44,32 @@ class Senlin extends ComicSource {
              * - for `mixed` type, use param `page` as index. for each index(0-based), return {data: [], maxPage: number?}, data is an array contains Comic[] or {title: string, comics: Comic[], viewMore: string?}
              */
             load: async (page) => {
-                /*
-                ```
-                let res = await Network.get("https://example.com")
+                let res = await Network.get(this.baseUrl)
 
                 if (res.status !== 200) {
                     throw `Invalid status code: ${res.status}`
                 }
 
-                let data = JSON.parse(res.body)
+                let document = new HtmlDocument(res.body)
 
-                function parseComic(comic) {
-                    // ...
+                let result = document.querySelectorAll("div.imgBox").map((item) => {
+                    return {
+                        title: item.querySelector("div.Sub_H2 > span.Title").textContent,
+                        comics: item.querySelectorAll("ul.col_3_1 > li").map((li) => {
+                            return new Comic({
+                                // /comic/jian-yu-xing-jing.html
+                                id: li.querySelector("a.ImgA").getAttribute('href').replaceAll('/comic/', '').replaceAll('.html', ''),
+                                title: li.querySelector("a.ImgA").getAttribute('title'),
+                                cover: li.querySelector("a.ImgA > picture > img").src
+                            })
+                        }),
+                        viewMore: item.querySelector("div.Sub_H2 > span.icon_More2").getAttribute('onclick').replaceAll('window.location=', '').replaceAll('\'', ''),
+                    }
+                })
 
-                    return new Comic({
-                        id: id,
-                        title: title,
-                        subTitle: author,
-                        cover: cover,
-                        tags: tags,
-                        description: description
-                    })
-                }
+                document.dispose()
 
-                let comics = {}
-                comics["hot"] = data["results"]["recComics"].map(parseComic)
-                comics["latest"] = data["results"]["newComics"].map(parseComic)
-
-                return comics
-                ```
-                */
+                return result
             },
 
             /**
@@ -627,6 +627,12 @@ class Senlin extends ComicSource {
     ```
      */
     settings = {
+        domain: {
+            title: "Domain",
+            type: "input",
+            validator: '^(?!:\\/\\/)(?=.{1,253})([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,}$',
+            default: 'nnhm7.xyz',
+        },
         setting1: {
             // title
             title: "Setting1",
@@ -669,6 +675,8 @@ class Senlin extends ComicSource {
             }
         }
     }
+
+    // refreshDomains nnhmfb.xyz
 
     // [Optional] translations for the strings in this config
     translation = {

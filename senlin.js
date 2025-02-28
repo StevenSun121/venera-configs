@@ -12,7 +12,7 @@ class Senlin extends ComicSource {
     minAppVersion = "1.3.1"
 
     // update url
-    url = "https://gh-proxy.com/raw.githubusercontent.com/StevenSun121/venera-configs/refs/heads/main/senlin.js"
+    url = "https://cdn.jsdelivr.net/gh/StevenSun121/venera-configs@main/senlin.js"
 
     /**
      * [Optional] init function
